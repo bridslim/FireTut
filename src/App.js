@@ -20,7 +20,6 @@ function App() {
   });
 
   const register = async () => {
-    await addDoc(usersCollectionRef, user.uid)
     try {
       const user = await createUserWithEmailAndPassword(
         auth,
