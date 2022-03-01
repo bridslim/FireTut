@@ -5,14 +5,39 @@ import { db, auth } from './firebase-config.js'
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from 'firebase/firestore'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth"
 
-
 function App() {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const usersCollectionRef = collection(db, 'users');
-
+  const [newName, setNewName] = useState("")
+  const [newAge, setNewAge] = useState(0)
+  const [usersInDb, setUsersInDb] = useState([]);
+  const usersCollectionRef = collection(db, 'users')
+  
+  const createUserInDb = async () => {
+    await addDoc(usersCollectionRef, {name:newName, age: newAge})
+  }  
+  const updateUserInDb = async (id, age) => {
+    const userDoc = doc(db,"users", id)
+    const newFields = {age: age + 1}
+    await updateDoc(userDoc, newFields)
+  }
+  
+  const deleteUserInDb = async (id) => {
+    const userDoc = doc(db,"users", id)
+    await deleteDoc(userDoc)
+  }
+  
+  useEffect(() => {
+    const getUsersInDb = async () => {
+    const data = await getDocs(usersCollectionRef)
+    console.log(data)
+    setUsersInDb(data.docs.map((doc) =>({...doc.data(), id: doc.id })))}
+        
+    getUsersInDb()
+  }, [])
+  
   const [user, setUser] = useState({});
 
   onAuthStateChanged(auth, (currentUser) => {
@@ -48,6 +73,9 @@ function App() {
   const logout = async () => {
     await signOut(auth);
   };
+
+
+
   return (
     <div className="App">
       <div>
@@ -85,6 +113,19 @@ function App() {
       </div>
       <button onClick={logout}> Sign Out </button>
       <div><UserDetails user={user} /></div>
+
+      <div>
+        <input placeholder="Name..." onChange={(event) => {setNewName(event.target.value)}}/>
+        <input type= "number" placeholder="Age..." onChange={(event) => {setNewAge(event.target.value)}}/>
+        <button onClick={createUserInDb}> Create User </button>
+        {usersInDb.map((userdb) => { return (<div>
+          <h1> Name: {userdb.name}</h1>
+          <h1>Age: {userdb.age}</h1>
+          <button onClick={() => {updateUserInDb(userdb.id, userdb.age)}}>Increase Age</button>
+          <button onClick={() => {deleteUserInDb(userdb.id)}}>Delete User</button>
+          </div>)
+        })}
+      </div>
     </div>
   );
 }
