@@ -1,5 +1,3 @@
-import React from 'react'
-
 const userDetails = ({user}) => {
     if (typeof user?.uid == "undefined"){
         return (
