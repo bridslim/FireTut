@@ -14,9 +14,9 @@ function App() {
   const [newAge, setNewAge] = useState(0)
   const [usersInDb, setUsersInDb] = useState([]);
   const usersCollectionRef = collection(db, 'users')
-  
+
   const createUserInDb = async () => {
-    await addDoc(usersCollectionRef, {name:newName, age: newAge})
+    await addDoc(usersCollectionRef, {name:newName, age: Number(newAge)})
   }  
   const updateUserInDb = async (id, age) => {
     const userDoc = doc(db,"users", id)
@@ -115,12 +115,13 @@ function App() {
       <div><UserDetails user={user} /></div>
 
       <div>
+        <h2>CRUD functions below!</h2>
         <input placeholder="Name..." onChange={(event) => {setNewName(event.target.value)}}/>
         <input type= "number" placeholder="Age..." onChange={(event) => {setNewAge(event.target.value)}}/>
         <button onClick={createUserInDb}> Create User </button>
         {usersInDb.map((userdb) => { return (<div>
-          <h1> Name: {userdb.name}</h1>
-          <h1>Age: {userdb.age}</h1>
+          <h3> Name: {userdb.name}</h3>
+          <h3>Age: {userdb.age}</h3>
           <button onClick={() => {updateUserInDb(userdb.id, userdb.age)}}>Increase Age</button>
           <button onClick={() => {deleteUserInDb(userdb.id)}}>Delete User</button>
           </div>)
