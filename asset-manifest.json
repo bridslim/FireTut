@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/FireTut/static/css/main.abd64e84.css",
-    "main.js": "/FireTut/static/js/main.8deb493f.js",
+    "main.js": "/FireTut/static/js/main.add9bd96.js",
     "static/js/787.ec704a7a.chunk.js": "/FireTut/static/js/787.ec704a7a.chunk.js",
     "index.html": "/FireTut/index.html",
     "main.abd64e84.css.map": "/FireTut/static/css/main.abd64e84.css.map",
-    "main.8deb493f.js.map": "/FireTut/static/js/main.8deb493f.js.map",
+    "main.add9bd96.js.map": "/FireTut/static/js/main.add9bd96.js.map",
     "787.ec704a7a.chunk.js.map": "/FireTut/static/js/787.ec704a7a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.abd64e84.css",
-    "static/js/main.8deb493f.js"
+    "static/js/main.add9bd96.js"
   ]
 }
